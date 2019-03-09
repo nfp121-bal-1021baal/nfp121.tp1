@@ -3,6 +3,9 @@ package question2;
 import question1.Circle;
 import question1.Square;
 import question1.Triangle;
+import javax.swing.Timer;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 /**
  * This class represents a simple picture. You can draw the picture using the
@@ -19,8 +22,9 @@ public class Picture {
     private Square wall;
     private Square window;
     private Triangle roof;
-    private Circle sun;
-
+    private Circle sun,yellowsun;
+    static int distance=0;
+    private boolean terreEstFix=false;
     /**
      * Constructor for objects of class Picture
      */
@@ -50,11 +54,20 @@ public class Picture {
         roof.makeVisible();
 
         sun = new Circle();
-        sun.changeColor("yellow");
+        sun.changeColor("blue");
         sun.moveHorizontal(180);
         sun.moveVertical(-10);
         sun.changeSize(60);
         sun.makeVisible();
+        
+        yellowsun = new Circle();
+        yellowsun.changeColor("yellow");
+        yellowsun.moveHorizontal(180);
+        yellowsun.moveVertical(-10);
+        yellowsun.changeSize(60);
+        yellowsun.makeVisible();
+        
+        terreEstFix=true;
     }
 
     /**
@@ -80,6 +93,25 @@ public class Picture {
             window.changeColor("black");
             roof.changeColor("green");
             sun.changeColor("yellow");
+        }
+    }
+    
+    public void coucher(){
+        if(terreEstFix){
+            distance=200;
+            Timer t = new Timer(50,new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    if(distance==0)
+                        ((Timer)e.getSource()).stop();
+                        
+                    sun.moveVertical(1);
+                    distance--;
+                }
+            });
+            t.setRepeats(true);
+            t.setCoalesce(true);
+            t.setInitialDelay(0);
+            t.start();
         }
     }
 
